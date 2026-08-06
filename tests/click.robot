@@ -1,48 +1,37 @@
 *** Settings ***
 
-Library          AppiumLibrary
-
-*** Variables ***
-
-${START}    QAX
+Resource       ../resources/base.resource
 
 *** Test Cases ***
 
-Deve realizar um clique simples
+Deve nagevar até tasks de cliques e realizar: clique simples
 
-    # Step 1 - Star session
-    Open Application    http://localhost:4723    
-    ...                 platformName=Android
-    ...                 automationName=UiAutomator2
-    ...                 deviceName=R9XX801GP8Z
-    ...                 platformVersion=15.0
-    ...                 autoGrantPermissions=true
-    ...                 app=${EXECDIR}/app/yodapp-beta.apk
+    Start session
+    Get started
+    Navigate to     Clique em botões
+    Go to item      Clique simples     Botão clique simples
 
-    # Step 2 - Get started
-    Wait Until Page Contains            ${START}    3    
-    Click Text                          ${START}
-
-    # Step 3 - Navigate to
-    ${icone_open_menu}       Set Variable    xpath=//android.widget.ImageButton[@content-desc="Open navigation drawer"]
-
-    Wait Until Element Is Visible      ${icone_open_menu}    3
-    Click Element                      ${icone_open_menu} 
-
-    ${menu_item}    Set Variable       xpath=//android.widget.TextView[@resource-id="com.qaxperience.yodapp:id/tvItemTitle" and @text="Clique em Botões"]
-    
-    Wait Until Element Is Visible      ${menu_item}    3
-    Click Element                      ${menu_item}
-
-    # Step 4 - Go to item clique simples
-    Wait Until Page Contains           Clique simples    3  
-    Click Text                         Clique simples
-    Wait Until Page Contains           Botão clique simples
-
-    # Step 5 - Test body
     Click Text                         CLIQUE SIMPLES
     Wait Until Page Contains           Isso é um clique simples
 
-    # Step 6 - Close session
-    Close Application
+    Close session
+
+Deve nagevar até tasks de cliques e realizar: clique longo
+    [Tags]    long
+
+    Start session
+    Get started
+    Navigate to     Clique em botões
+    Go to item      Clique longo       Botão clique simples
+
+    ${locator}      Set Variable       id=com.qaxperience.yodapp:id/long_click
+    ${positions}    Get Element Location       ${locator}
+
+    Tap With Positions                 1000    ${${positions}[x], ${positions}[y]}
+    Wait Until Page Contains           Isso é um clique longo
+
+    Close session
+
+
+
 
