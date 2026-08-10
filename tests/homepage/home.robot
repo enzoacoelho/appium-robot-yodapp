@@ -1,6 +1,6 @@
 *** Settings ***
 
-Resource       ../resources/base.resource
+Resource       ../../resources/base.resource
 
 *** Test Cases ***
 
