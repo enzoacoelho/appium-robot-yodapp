@@ -1,14 +1,20 @@
 *** Settings ***
 
-Resource       ../resources/base.resource
+Resource     ../resources/base.resource
 
 *** Variables ***
-${ALERTA_ERRO}    id=com.qaxperience.yodapp:id/textinput_error
-${msg_email_invalido}    Email válido você deve informar!
-${msg_senha_invalida}    Uma senha você deve informar!
-${msg_credenciais_incorretas}    Oops! Credenciais incorretas.
-${email}    yoda@qax.com
-${senha}    jedi
+
+${CAMPO_EMAIL}    id=com.qaxperience.yodapp:id/etEmail 
+${CAMPO_SENHA}    id=com.qaxperience.yodapp:id/etPassword 
+${BOTAO_LOGIN}    id=com.qaxperience.yodapp:id/btnSubmit
+
+${ALERTA_ERRO}          id=com.qaxperience.yodapp:id/textinput_error
+${EMAIL_INVALIDO}   Email válido você deve informar!
+${SENHA_INVALIDA}   Uma senha você deve informar!
+${CREDENCIAIS_INCORRETAS}   Oops! Credenciais incorretas.
+
+${EMAIL}    yoda@qax.com
+${SENHA}    jedi
 
 
 *** Test Cases ***
@@ -19,11 +25,11 @@ Deve logar com sucesso
 
     Get started
     Navigate to    Formulários
-    Go to item     Login     Login
+    Go to item     Login     Olá Padawan, vamos testar o login?
 
-    Input Text       id=com.qaxperience.yodapp:id/etEmail       ${email}
-    Input Text       id=com.qaxperience.yodapp:id/etPassword    ${senha}
-    Click Element    id=com.qaxperience.yodapp:id/btnSubmit
+    Input Text       ${CAMPO_EMAIL}        ${EMAIL}
+    Input Text       ${CAMPO_SENHA}        ${SENHA}
+    Click Element    ${BOTAO_LOGIN}
 
     Wait Until Page Contains    Boas vindas, logado você está.
 
@@ -35,11 +41,11 @@ Não deve logar com senha incorreta
     Navigate to     Formulários
     Go to item      Login     Login
 
-    Input Text       id=com.qaxperience.yodapp:id/etEmail        ${email}
-    Input Text       id=com.qaxperience.yodapp:id/etPassword     ${senha}
-    Click Element    id=com.qaxperience.yodapp:id/btnSubmit
+    Input Text       ${CAMPO_EMAIL}        ${EMAIL}
+    Input Text       ${CAMPO_SENHA}        ${SENHA}
+    Click Element    ${BOTAO_LOGIN}
 
-    Wait Until Page Contains    ${msg_credenciais_incorretas}   3
+    Wait Until Page Contains    ${CREDENCIAIS_INCORRETAS}   3
 
 Não deve logar com email invalido
 
@@ -49,14 +55,14 @@ Não deve logar com email invalido
     Navigate to     Formulários
     Go to item   Login     Login
 
-    Input Text       id=com.qaxperience.yodapp:id/etEmail        1234
-    Input Text       id=com.qaxperience.yodapp:id/etPassword     ${senha}
-    Click Element    id=com.qaxperience.yodapp:id/btnSubmit
+    Input Text       ${CAMPO_EMAIL}         1234
+    Input Text       ${CAMPO_SENHA}         ${SENHA}
+    Click Element    ${BOTAO_LOGIN}
 
     Wait Until Element Is Visible       ${ALERTA_ERRO} 
     ${mensagem_obtida}      Get Text    ${ALERTA_ERRO}
 
-    Should Be Equal         ${mensagem_obtida}        ${msg_email_invalido} 
+    Should Be Equal         ${mensagem_obtida}        ${EMAIL_INVALIDO} 
 
 Não deve logar com senha vazia
 
@@ -66,13 +72,13 @@ Não deve logar com senha vazia
     Navigate to     Formulários
     Go to item      Login     Login
 
-    Input Text      id=com.qaxperience.yodapp:id/etEmail       ${email}
-    Click Element   id=com.qaxperience.yodapp:id/btnSubmit
+    Input Text      ${CAMPO_EMAIL}        ${EMAIL}
+    Click Element   ${BOTAO_LOGIN}
 
     Wait Until Element Is Visible         ${ALERTA_ERRO} 
     ${mensagem_obtida}      Get Text      ${ALERTA_ERRO}
 
-    Should Be Equal     ${mensagem_obtida}    ${msg_senha_invalida}
+    Should Be Equal     ${mensagem_obtida}    ${SENHA_INVALIDA}
 
 Não deve logar com email vazio
 
@@ -82,10 +88,10 @@ Não deve logar com email vazio
     Navigate to     Formulários
     Go to item      Login     Login
 
-    Input Text      id=com.qaxperience.yodapp:id/etPassword    ${senha}
-    Click Element   id=com.qaxperience.yodapp:id/btnSubmit
+    Input Text      ${CAMPO_SENHA}    ${SENHA}
+    Click Element   ${BOTAO_LOGIN}
 
     Wait Until Element Is Visible           ${ALERTA_ERRO} 
     ${mensagem_obtida}      Get Text        ${ALERTA_ERRO}
 
-    Should Be Equal         ${mensagem_obtida}      ${msg_email_invalido} 
+    Should Be Equal         ${mensagem_obtida}      ${EMAIL_INVALIDO} 
